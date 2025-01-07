@@ -32,8 +32,8 @@ def create_main_config(config:dict):
     characters_config = create_characters_config(config.get("characters_config", {}))
     main_config = config.get("main", {})
     return VitsConfig(model_args=model_args,
-                      audio_config=audio_config,
-                      characters_config=characters_config,
+                      audio=audio_config,
+                      characters=characters_config,
                       **main_config)
 
 def create_model(config:dict):

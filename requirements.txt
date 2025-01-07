@@ -1,0 +1,4 @@
+wandb==0.19.0
+typer==0.12.3
+omegaconf==2.3.0
+git+https://github.com/Muhammad-Abdelsattar/TTS.git@0aa73257cf164e0b5da5497e4fb9615d22b86d2e#egg=TTS
