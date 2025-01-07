@@ -56,8 +56,8 @@ def create_trainer(config:dict):
     dataset_config = create_dataset_config(config.get("dataset_config", {}))
     train_samples, eval_samples = load_tts_samples(dataset_config,
                                                    eval_split=True,
-                                                   eval_split_max_size=main_config.eval_split_max_size,
-                                                   eval_split_size=main_config.eval_split_size,
+                                                   eval_split_max_size=main_config.get("eval_split_max_size"),
+                                                   eval_split_size=main_config.get("eval_split_size", 0.005),
                                                    )
     trainer_args = create_trainer_args(config.get("trainer_args", {}))
 

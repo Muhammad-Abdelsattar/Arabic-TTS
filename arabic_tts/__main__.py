@@ -16,6 +16,7 @@ def train(config: str = typer.Option("config.yaml", "-c", "--config", help="Conf
     if continue_path:
         config.trainer_args.continue_path = continue_path
     wandb.login(key=config.common.wandb_api_key)
+    config = OmegaConf.to_container(config, resolve=True)
     trainer = create_trainer(config)
     trainer.fit()
     
