@@ -1,0 +1,74 @@
+common:
+  wandb_api_key: "your_wandb_api_key"
+  output_path: &output_path "outputs"
+
+main:
+  dashboard_logger: "wandb"
+  project_name: "arabic_tts"
+  run_name: "arabic_tts"
+  output_path: *output_path
+  batch_size: 32
+  eval_batch_size: 32
+  batch_group_size: 5
+  num_loader_workers: 4
+  num_eval_loader_workers: 4
+  run_eval: true
+  test_delay_epochs: -1
+  epochs: 1000
+  save_step: 2000
+  save_n_checkpoints: 3
+  text_cleaner: "basic_arabic_cleaners"
+  phoneme_language: "ar"
+  phoneme_cache_path: "phoneme_cache"
+  compute_input_seq_cache: true
+  use_phonemes: true
+  add_blank: false
+  test_sentences_file: "test_sentences.txt"
+  print_step: 50
+  print_eval: true
+  eval_split_size: 0.005
+  mixed_precision: true
+  cudnn_benchmark: false
+
+model_args:
+  hidden_channels: 128
+  hidden_channels_ffn_text_encoder: 256
+  num_heads_text_encoder: 2
+  num_layers_text_encoder: 4
+  kernel_size_text_encoder: 3
+  kernel_size_posterior_encoder: 5
+  resblock_type_decoder: "2"
+  upsample_initial_channel_decoder: 256
+  resblock_kernel_sizes_decoder: [3, 5, 7]
+  resblock_dilation_sizes_decoder:
+    - [1, 2]
+    - [2, 6]
+    - [3, 12]
+  upsample_rates_decoder: [8, 8, 4]
+  upsample_kernel_sizes_decoder: [16, 16, 8]
+  use_sdp: true
+  out_channels: 513
+
+characters_config:
+  blank: "<BLNK>"
+  eos: "<EOS>"
+  bos: "<BOS>"
+  pad: "<PAD>"
+  characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'~<*$>}|،^&؛"
+  punctuations: "!(),-.:;? "
+
+audio_config:
+  sample_rate: 16000
+  win_length: 1024
+  hop_length: 256
+  num_mels: 64
+  mel_fmin: 0
+  mel_fmax: null
+
+dataset_config:
+  formatter: "arabic_single_speaker"
+  meta_file_train: "metadata.txt"
+  path: "input"
+
+trainer_args:
+  continue_path: "" # path to checkpoint to continue training from
