@@ -26,11 +26,19 @@ def create_tokenizer(config:dict):
 def create_trainer_args(config:dict):
     return TrainerArgs(**config)
 
+def read_test_sentences(path:str):
+    if(not os.path.exists(path)):
+        return []
+    with open(path, "r", encoding="utf-16") as f:
+        return [line.strip() for line in f.readlines()]
+
 def create_main_config(config:dict):
     model_args = create_model_args(config.get("model_args", {}))
     audio_config = create_audio_config(config.get("audio_config", {}))
     characters_config = create_characters_config(config.get("characters_config", {}))
+    test_sentences = read_test_sentences(config.get("test_sentences_file"))
     main_config = config.get("main", {})
+    main_config["test_sentences"] = test_sentences
     return VitsConfig(model_args=model_args,
                       audio=audio_config,
                       characters=characters_config,

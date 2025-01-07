@@ -23,7 +23,7 @@ main:
   compute_input_seq_cache: true
   use_phonemes: true
   add_blank: false
-  test_sentences_file: "test_sentences.txt"
+  test_sentences_file: "input/test_sentences.txt"
   print_step: 50
   print_eval: true
   eval_split_size: 0.005
