@@ -8,8 +8,8 @@ cli = typer.Typer()
 
 @cli.command()
 def train(config: str = typer.Option("config.yaml", "-c", "--config", help="Configuration path."),
-          continue_path: str = typer.Option("", "-p", "--continue-path", help="Path to the checkpoint to continue training."),
-          wandb_key: str = typer.Option("", "-w", "--wandb-key", help="Wandb API key.")):
+          continue_path: str = typer.Option("", "--continue-path", help="Path to the checkpoint to continue training."),
+          wandb_key: str = typer.Option("", "--wandb-key", help="Wandb API key.")):
     config = OmegaConf.load(config)
     if wandb_key:
         config.common.wandb_api_key = wandb_key

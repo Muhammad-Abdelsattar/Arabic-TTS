@@ -15,7 +15,7 @@ main:
   run_eval: true
   test_delay_epochs: -1
   epochs: 1000
-  save_step: 2000
+  save_step: 10000
   save_n_checkpoints: 3
   text_cleaner: "basic_arabic_cleaners"
   phoneme_language: "ar"
