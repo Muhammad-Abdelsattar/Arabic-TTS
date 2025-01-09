@@ -61,7 +61,7 @@ audio_config:
   sample_rate: 16000
   win_length: 1024
   hop_length: 256
-  num_mels: 64
+  num_mels: 80
   mel_fmin: 0
   mel_fmax: null
 
