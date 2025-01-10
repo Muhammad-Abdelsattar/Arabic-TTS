@@ -55,7 +55,6 @@ class Tokenizer:
                 phonems += self.characters.id_to_char(token_id)
             except KeyError:
                 print(f" [!] Token ID {token_id} not found in the vocabulary. Discarding it.")
-        phonems = phonems.replace(self.phonemizer.separator, "")
         return self.phonemizer.buckwalter_to_arabic(phonems)
 
     def text_to_ids(self, text: str) -> List[int]:

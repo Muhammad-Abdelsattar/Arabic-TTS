@@ -17,8 +17,12 @@ abbreviations_ar = [
 whitespace_regex = re.compile(r"\s+")
 auxilary_symbols = re.compile(r"[\<\>\(\)\[\]\"]+")
 symbols_mapping = {
-    "-":" ",
-    "_":" ",
+    "،":",",
+    "؛":",",
+    ":":",",
+    "؟":"?",
+    "-":",",
+    "_":",",
     "%":" في المائة ",
     "=":" يساوي ",
 }
@@ -41,6 +45,7 @@ def collapse_whitespace(text):
     return whitespace_regex.sub(" ", text).strip()
 
 #TODO: replace numbers, dates, and times.
+
 def clean_text(text):
     text = expand_abbreviations(text)
     text = replace_symbols(text)

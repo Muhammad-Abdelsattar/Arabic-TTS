@@ -2,17 +2,11 @@ from typing import Dict, List
 
 class Phonemizer:
     def __init__(self,
-                 char_to_phonem: Dict[str, str],
-                 separator: str):
+                 char_to_phonem: Dict[str, str],):
 
         self._char_to_phonem = char_to_phonem.copy()
         self._phonem_to_char = {v: k for k, v in char_to_phonem.items()}
-        self._separator = separator
 
-    @property
-    def separator(self) -> str:
-        return self._separator
-    
     def arabic_to_buckwalter(self, text: str) -> str:
         """
         Converts Arabic text to Buckwalter transliteration.
@@ -54,7 +48,6 @@ class Phonemizer:
             str: A string of phonemes corresponding to the input text.
         """
         phonemized_text = self.arabic_to_buckwalter(text)
-        phonemized_text = phonemized_text.replace(" ", self._separator)
         return phonemized_text
 
     def phonemize_batch(self, texts: List[str]) -> List[str]:
@@ -77,13 +70,12 @@ class Phonemizer:
         returns:
             Phonemizer: A Phonemizer object initialized with the provided configuration.
         """
-        required_keys = ['char_to_phonem', 'separator']
+        required_keys = ['char_to_phonem']
         for key in required_keys:
             if key not in config:
                 raise KeyError(f"Config missing required key: {key}")
         char_to_phonem = config["char_to_phonem"]
-        separator = config["separator"]
-        return Phonemizer(char_to_phonem, separator)
+        return Phonemizer(char_to_phonem)
 
     @staticmethod
     def to_config(self) -> Dict:
@@ -94,5 +86,4 @@ class Phonemizer:
         """
         return {
             'char_to_phonem': self._char_to_phonem,
-            'separator': self._separator
         }

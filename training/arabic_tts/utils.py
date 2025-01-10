@@ -30,7 +30,6 @@ buckwalter_to_arabic = { #mapping from Buckwalter to Arabic script
 
 def get_phonemizer_config():
     config = {}
-    config["separator"] = "|"
     config["char_to_phonem"] = arabic_to_buckwalter
     return config
 

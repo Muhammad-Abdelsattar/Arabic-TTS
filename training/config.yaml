@@ -54,7 +54,7 @@ characters_config:
   eos: "<EOS>"
   bos: "<BOS>"
   pad: "<PAD>"
-  characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'~<*$>}|،^&؛"
+  characters: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'~<*$>}|^&"
   punctuations: "!(),-.:;? "
 
 audio_config:
