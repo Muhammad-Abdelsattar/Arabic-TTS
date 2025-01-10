@@ -41,12 +41,24 @@ def get_character_mapping(model):
     config["id_to_char"] = model.tokenizer.characters._id_to_char
     return config
 
+def get_characters_config(model):
+    config = {}
+    config["characters"] = model.tokenizer.characters.characters
+    config["punctuations"] = model.tokenizer.characters.punctuations
+    config["pad"] = model.tokenizer.characters.pad
+    config["bos"] = model.tokenizer.characters.bos
+    config["eos"] = model.tokenizer.characters.eos
+    config["blank"] = model.tokenizer.characters.blank
+    config["mapping"] = get_character_mapping(model)
+    return config
+
+
 def get_tokenizer_config(model):
     config = {}
     config["add_blank"] = model.tokenizer.add_blank
     config["use_eos_bos"] = model.tokenizer.use_eos_bos
     config["phonemizer"] = get_phonemizer_config()
-    config["character_mapping"] = get_character_mapping(model)
+    config["characters"] = get_characters_config(model)
     return config
 
 def save_tokenizer_config(path,config):
