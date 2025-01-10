@@ -31,15 +31,11 @@ buckwalter_to_arabic = { #mapping from Buckwalter to Arabic script
 def get_phonemizer_config():
     config = {}
     config["separator"] = "|"
-    config["buckwalter2arabic"] = buckwalter_to_arabic
-    config["arabic2buckwalter"] = arabic_to_buckwalter
+    config["char_to_phonem"] = arabic_to_buckwalter
     return config
 
 def get_character_mapping(model):
-    config = {}
-    config["char_to_id"] = model.tokenizer.characters._char_to_id
-    config["id_to_char"] = model.tokenizer.characters._id_to_char
-    return config
+    return model.tokenizer.characters._char_to_id
 
 def get_characters_config(model):
     config = {}
@@ -49,7 +45,7 @@ def get_characters_config(model):
     config["bos"] = model.tokenizer.characters.bos
     config["eos"] = model.tokenizer.characters.eos
     config["blank"] = model.tokenizer.characters.blank
-    config["mapping"] = get_character_mapping(model)
+    config["char_to_id"] = get_character_mapping(model)
     return config
 
 
