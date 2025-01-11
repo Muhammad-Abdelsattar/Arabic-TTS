@@ -36,7 +36,7 @@ def train(config: str = typer.Option("config.yaml", "-c", "--config", help="Conf
         used_path = restore_path
 
     config = OmegaConf.to_container(config, resolve=True)
-    _, main_config = create_model(config)[1].to_dict()
+    main_config = create_model(config)[1].to_dict()
 
     if used_path:
         if not os.path.exists(os.path.join(used_path, "config.json")):
