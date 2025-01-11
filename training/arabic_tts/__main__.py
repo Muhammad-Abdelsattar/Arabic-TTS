@@ -1,4 +1,5 @@
 import os
+import json
 import typer
 import wandb
 from omegaconf import OmegaConf
@@ -10,12 +11,31 @@ cli = typer.Typer()
 @cli.command()
 def train(config: str = typer.Option("config.yaml", "-c", "--config", help="Configuration path."),
           continue_path: str = typer.Option("", "--continue-path", help="Path to the checkpoint to continue training."),
+          restore_path: str = typer.Option("", "--restore-path", help="Path to the checkpoint to start fine-tuning from training."),
           wandb_key: str = typer.Option("", "--wandb-key", help="Wandb API key.")):
     config = OmegaConf.load(config)
+
+    used_path = ""
+
     if wandb_key:
         config.common.wandb_api_key = wandb_key
     if continue_path:
         config.trainer_args.continue_path = continue_path
+    #     used_path = continue_path
+    # if restore_path:
+    #     config.trainer_args.restore_path = restore_path
+    #     used_path = restore_path
+    # if(continue_path and restore_path):
+    #     print(f"|> ! Both restore_path and continue_path are provided, restore_path takes precedence.")
+    #     config.trainer_args.continue_path = ""
+    #     used_path = restore_path
+        
+    # if(used_path==restore_path):
+    #     with open(os.path.join(used_path, "config.json"), "r") as f:
+    #         ckpt_config = json.load(f)
+    #     #update ckpt_config with the provided config
+    #     ckpt_config.update(config)
+
     wandb.login(key=config.common.wandb_api_key)
     config = OmegaConf.to_container(config, resolve=True)
     trainer = create_trainer(config)

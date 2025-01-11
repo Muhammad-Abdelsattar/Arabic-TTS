@@ -7,8 +7,10 @@ main:
   project_name: "arabic_tts"
   run_name: "arabic_tts"
   output_path: *output_path
-  batch_size: 32
+  batch_size: 16
   eval_batch_size: 32
+  lr_gen: 0.00015
+  lr_disc: 0.00015
   batch_group_size: 5
   num_loader_workers: 4
   num_eval_loader_workers: 4
@@ -34,7 +36,7 @@ model_args:
   hidden_channels: 128
   hidden_channels_ffn_text_encoder: 256
   num_heads_text_encoder: 2
-  num_layers_text_encoder: 4
+  num_layers_text_encoder: 3
   kernel_size_text_encoder: 3
   kernel_size_posterior_encoder: 5
   resblock_type_decoder: "2"
