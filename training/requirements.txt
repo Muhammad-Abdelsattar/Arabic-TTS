@@ -3,4 +3,4 @@ typer==0.12.3
 omegaconf==2.3.0
 onnx>=1.16.0
 onnxruntime>=1.18.0
-git+https://github.com/Muhammad-Abdelsattar/TTS.git@6006ea87c500c672c096222fde209c7413dd43be#egg=TTS
+git+https://github.com/Muhammad-Abdelsattar/TTS.git@63886f126d8644784290c1268665d0ec74391ef1#egg=TTS
