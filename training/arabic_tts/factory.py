@@ -43,7 +43,7 @@ def create_main_config(config:dict):
                       audio=audio_config,
                       characters=characters_config,
                       **main_config)
-
+    
 def create_model(config:dict):
     main_config = create_main_config(config)
     
