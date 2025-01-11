@@ -1,3 +1,4 @@
+import os
 import json
 
 arabic_to_buckwalter = { #mapping from Arabic script to Buckwalter
@@ -59,3 +60,36 @@ def get_tokenizer_config(model):
 def save_tokenizer_config(path,config):
     with open(path, "w") as f:
         json.dump(config, f, indent=4)
+
+def get_latest_checkpoint(directory):
+    """
+    Finds the latest checkpoint file in the specified directory.
+
+    Parameters:
+    directory (str): The path to the directory containing the checkpoints.
+
+    Returns:
+    str: The filename of the latest checkpoint file, or None if no checkpoint files are found.
+    """
+    latest_checkpoint = None
+    highest_number = -1
+
+    # List all files in the directory
+    files = os.listdir(directory)
+
+    # Iterate through the files
+    for file in files:
+        # Check if the file matches the pattern checkpoint_{number}.pth
+        if file.startswith("checkpoint_") and file.endswith(".pth"):
+            # Extract the number from the filename
+            parts = file.split("_")
+            if len(parts) >= 2:
+                num_str = parts[1].split(".")[0]
+                if num_str.isdigit():
+                    number = int(num_str)
+                    # Update if this is the highest number found
+                    if number > highest_number:
+                        highest_number = number
+                        latest_checkpoint = file
+
+    return latest_checkpoint    

@@ -4,7 +4,7 @@ import typer
 import wandb
 from omegaconf import OmegaConf
 from .factory import create_trainer, create_model, create_main_config
-from .utils import get_tokenizer_config, save_tokenizer_config
+from .utils import get_tokenizer_config, save_tokenizer_config, get_latest_checkpoint
 
 cli = typer.Typer()
 
@@ -27,7 +27,8 @@ def train(config: str = typer.Option("config.yaml", "-c", "--config", help="Conf
         config.trainer_args.continue_path = continue_path
         used_path = continue_path
     if restore_path:
-        config.trainer_args.restore_path = restore_path
+        path = os.path.join(restore_path, get_latest_checkpoint(restore_path))
+        config.trainer_args.restore_path = path
         used_path = restore_path
 
     if(continue_path and restore_path):
