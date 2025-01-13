@@ -7,7 +7,7 @@ main:
   project_name: "arabic_tts"
   run_name: "arabic_tts"
   output_path: *output_path
-  batch_size: 16
+  batch_size: 32
   eval_batch_size: 32
   lr_gen: 0.00015
   lr_disc: 0.00015
@@ -24,7 +24,7 @@ main:
   phoneme_cache_path: "phoneme_cache"
   compute_input_seq_cache: true
   use_phonemes: true
-  add_blank: false
+  add_blank: true
   test_sentences_file: "input/test_sentences.txt"
   print_step: 50
   print_eval: true
@@ -34,9 +34,9 @@ main:
 
 model_args:
   hidden_channels: 128
-  hidden_channels_ffn_text_encoder: 256
-  num_heads_text_encoder: 2
-  num_layers_text_encoder: 3
+  hidden_channels_ffn_text_encoder: 512
+  num_heads_text_encoder: 4
+  num_layers_text_encoder: 4
   kernel_size_text_encoder: 3
   kernel_size_posterior_encoder: 5
   resblock_type_decoder: "2"

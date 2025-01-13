@@ -1,5 +1,5 @@
 from typing import Callable, Dict, List, Union
-from .phonemizer import Phonemizer
+from arabic_phonemizer import ArabicPhonemizer
 from .characters import Characters
 from .cleaners import clean_text
 
@@ -9,7 +9,6 @@ class Tokenizer:
         self,
         text_cleaner: Callable = None,
         characters: "Characters" = None,
-        phonemizer: "Phonemizer" = None,
         add_blank: bool = False,
         use_eos_bos: bool=False,
     ):
@@ -18,7 +17,7 @@ class Tokenizer:
         self.use_eos_bos = use_eos_bos
         self.characters = characters
         self.not_found_characters = []
-        self.phonemizer = phonemizer
+        self.phonemizer = ArabicPhonemizer()
 
     def encode(self, text: str) -> List[int]:  # pylint: disable=unused-argument
         """Converts a string of text to a sequence of token IDs as follows:
@@ -44,18 +43,6 @@ class Tokenizer:
         if self.use_eos_bos:
             text = self.pad_with_bos_eos(text)
         return text
-
-    def decode(self, token_ids: List[int]) -> str:
-        """Decodes a sequence of IDs to a string of text."""
-        phonems = ""
-        for token_id in token_ids:
-            try:
-                if token_id in [self.characters.blank_id, self.characters.bos_id, self.characters.eos_id]:
-                    continue
-                phonems += self.characters.id_to_char(token_id)
-            except KeyError:
-                print(f" [!] Token ID {token_id} not found in the vocabulary. Discarding it.")
-        return self.phonemizer.buckwalter_to_arabic(phonems)
 
     def text_to_ids(self, text: str) -> List[int]:
         """Encodes a string of text to a sequence of IDs."""
@@ -93,7 +80,7 @@ class Tokenizer:
         Args:
             config: Tokenizer config.
         """
-        required_keys = ["characters","phonemizer"]
+        required_keys = ["characters"]
         optional_keys = ["add_blank", "use_eos_bos"]
         for key in required_keys:
             if key not in config:
@@ -102,13 +89,11 @@ class Tokenizer:
         for key in optional_keys:
             if key not in config:
                 config[key] = False
-        phonemizer = Phonemizer.init_from_config(config["phonemizer"])
         characters = Characters.init_from_config(config["characters"])
         addd_blank = config["add_blank"]
         use_eos_bos = config["use_eos_bos"]
 
         return Tokenizer(
-                phonemizer=phonemizer,
                 characters=characters,
                 add_blank=addd_blank,
                 use_eos_bos=use_eos_bos,

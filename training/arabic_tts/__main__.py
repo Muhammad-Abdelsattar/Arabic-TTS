@@ -73,9 +73,10 @@ def export_model(config: str = typer.Option("config.yaml", "-c", "--config", hel
     model.load_checkpoint(config=config, checkpoint_path=checkpoint_path)
     print(f"> Model loaded from {checkpoint_path}.")
     print(f"> Exporting model to {export_path}.")
-    model.export_onnx(export_path)
+    model.export_onnx(os.path.join(export_path, "model.onnx"))
+    print(f"> Exporting tokenizer config to {export_path}.")
+    save_tokenizer_config(os.path.join(export_path, "tokenizer_config.json"), get_tokenizer_config(model))
     print(f"> Model exported to {export_path} successfully.")
-
 
 if __name__ == "__main__":
     cli()

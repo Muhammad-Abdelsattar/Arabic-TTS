@@ -1,5 +1,8 @@
 */*.jpg
 prototype.ipynb
+export
+artifacts
+wandb
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
