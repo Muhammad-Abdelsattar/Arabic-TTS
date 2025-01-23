@@ -1,4 +1,6 @@
 import os
+from typing import Optional, Union
+from pathlib import Path
 from trainer import Trainer, TrainerArgs
 from TTS.tts.configs.shared_configs import BaseDatasetConfig, CharactersConfig
 from TTS.tts.configs.vits_config import VitsConfig
@@ -15,7 +17,7 @@ def create_audio_config(config:dict):
     return VitsAudioConfig(**config)
 
 def create_characters_config(config:dict):
-    return CharactersConfig(**config)
+    return CharactersConfig(**config) if config else None
 
 def create_dataset_config(config:dict):
     return BaseDatasetConfig(**config)
@@ -26,18 +28,22 @@ def create_tokenizer(config:dict):
 def create_trainer_args(config:dict):
     return TrainerArgs(**config)
 
-def read_test_sentences(path:str):
-    if(not os.path.exists(path)):
+def read_test_sentences(path:Optional[str]=None):
+    if path:
+        path = Path(path)
+        if(not path.exists()):
+            return []
+        with open(path, "r", encoding="utf-16") as f:
+            return [line.strip() for line in f.readlines()]
+    else:
         return []
-    with open(path, "r", encoding="utf-16") as f:
-        return [line.strip() for line in f.readlines()]
 
 def create_main_config(config:dict):
     model_args = create_model_args(config.get("model_args", {}))
     audio_config = create_audio_config(config.get("audio_config", {}))
     characters_config = create_characters_config(config.get("characters_config", {}))
     main_config = config.get("main", {})
-    test_sentences = read_test_sentences(main_config.get("test_sentences_file"))
+    test_sentences = read_test_sentences(main_config.get("test_sentences_file",None))
     main_config["test_sentences"] = test_sentences
     return VitsConfig(model_args=model_args,
                       audio=audio_config,

@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import json
 import typer
 import wandb
@@ -60,15 +61,27 @@ def train(config: str = typer.Option("config.yaml", "-c", "--config", help="Conf
     
     
 @cli.command()
-def export_model(config: str = typer.Option("config.yaml", "-c", "--config", help="Configuration path."),
+def export_model(config: str = typer.Option("config.yaml","--config-path", help="The path to the config file used to train the checkpoint model. That must explicitly be the one used to train the model."),
                  checkpoint_path: str = typer.Option("", "--checkpoint-path", help="Path to the checkpoint to be exported."),
                  export_path: str = typer.Option("", "--export-path", help="Path to save the exported model and metadata.")):
+
     config = OmegaConf.load(config)
-    if not os.path.exists(checkpoint_path):
-        raise FileNotFoundError(f"Checkpoint path {checkpoint_path} does not exist.")
+    config = OmegaConf.to_container(config, resolve=True)
+    path = Path(checkpoint_path)
+    if not path.exists():
+        raise FileNotFoundError(f"Checkpoint {checkpoint_path} does not exist.")
+
+    #The checkpoint config will be used to extract the model architecture.
+    # with open(path.parent.absolute()/"config.json", "r") as f:
+    #     temp_config = json.load(f)
+        
+
     if not os.path.exists(export_path):
         os.makedirs(export_path)
-    config = OmegaConf.to_container(config, resolve=True)
+
+    #Ensure that the created model architecture is the same as the one in the checkpoint
+    # config["model_args"] = temp_config["model_args"]
+
     model, config = create_model(config)
     model.load_checkpoint(config=config, checkpoint_path=checkpoint_path)
     print(f"> Model loaded from {checkpoint_path}.")

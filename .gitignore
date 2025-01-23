@@ -1,6 +1,6 @@
 */*.jpg
 prototype.ipynb
-export
+export*
 artifacts
 wandb
 # Byte-compiled / optimized / DLL files

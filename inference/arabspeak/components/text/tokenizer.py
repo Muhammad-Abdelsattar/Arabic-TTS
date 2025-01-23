@@ -39,7 +39,7 @@ class Tokenizer:
         text = self.phonemizer.phonemize(text)
         text = self.text_to_ids(text)
         if self.add_blank:
-            text = self.intersperse_blank_char(text, True)
+            text = self.intersperse_blank_char(text)
         if self.use_eos_bos:
             text = self.pad_with_bos_eos(text)
         return text
