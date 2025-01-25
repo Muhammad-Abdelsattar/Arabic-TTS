@@ -48,7 +48,7 @@ model_args:
     - [3, 12]
   upsample_rates_decoder: [8, 8, 4]
   upsample_kernel_sizes_decoder: [16, 16, 8]
-  use_sdp: false
+  use_sdp: true
   out_channels: 513
 
 characters_config:
